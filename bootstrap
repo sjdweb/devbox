@@ -25,7 +25,7 @@ osname=$(uname)
 export COMMANDLINE_TOOLS="/Library/Developer/CommandLineTools"
 export OLD_DOTFILES_BACKUP=$HOME/old_dotfiles_backup
 
-export DOTFILES_REPO_URL="https://github.com/sjdweb/dotfiles.git"
+export DOTFILES_REPO_URL="git@github.com:sjdweb/dotfiles.git"
 export DOTFILES_BRANCH="master"
 export DOTFILES_DIR=$HOME/dotfiles
 
