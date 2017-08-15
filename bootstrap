@@ -160,10 +160,10 @@ bootstrap_echo "Done!"
 
 
 ################################################################################
-# 8. Install Powerline-patched fonts
+# 5. Install Powerline-patched fonts
 ################################################################################
 
-bootstrap_echo "Step 8: Installing fixed-width fonts patched for use with Powerline symbols..."
+bootstrap_echo "Step 5: Installing fixed-width fonts patched for use with Powerline symbols..."
 if [ -d "$HOME"/src/fonts ]; then
   rm -rf "$HOME"/src/fonts
 fi
@@ -177,10 +177,10 @@ bootstrap_echo "Done!"
 
 
 ################################################################################
-# 9. Install Vundle & Vim plugins (https://github.com/VundleVim/Vundle.vim.git)
+# 6. Install Vundle & Vim plugins (https://github.com/VundleVim/Vundle.vim.git)
 ################################################################################
 
-bootstrap_echo "Step 9: Installing Vundle and vim plugins..."
+bootstrap_echo "Step 6: Installing Vundle and vim plugins..."
 if [ -d "$HOME"/.vim/bundle ]; then
   rm -rf "$HOME"/.vim/bundle
 fi
@@ -193,7 +193,7 @@ bootstrap_echo "Done!"
 
 
 ################################################################################
-# 10. Set macOS preferences
+# 7. Set macOS preferences
 ################################################################################
 
 bootstrap_echo "Step 10: Setting macOS preferences..."

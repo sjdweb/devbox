@@ -1,7 +1,7 @@
 Mac Bootstrap
 =============
 
-Forked from [here](https://github.com/joshukraine/mac-bootstrap)
+NOTE: Forked from [here](https://github.com/joshukraine/mac-bootstrap)
 
 **These are quite customised from the original and I would recommend you do the same rather than blindly using them**
 
@@ -14,10 +14,9 @@ The purpose of this script is to provision a new machine running a fresh install
 
 The [`bootstrap`](https://github.com/joshukraine/mac-bootstrap/blob/master/bootstrap) script is very specific to the Mac platform. It has been successfully tested on the following versions of macOS:
 
+* Yosemite (10.10)
 * El Capitan (10.11)
 * Sierra (10.12)
-
-&#9657; **Looking for dotfiles only? Check out [My Dotfiles for macOS](http://jsua.co/dotfiles)**
 
 
 Prerequisites
@@ -130,12 +129,9 @@ No one else's development setup will ever be a perfect match for you. That said,
 * Step 2 (recommended): Use `oh-my-zsh`?
 * Step 3 (optional): Install NVM?
 * Step 4 (required): The dotfiles. Update the `$DOTFILES_*` variables (see [`bootstrap`](https://github.com/joshukraine/mac-bootstrap/blob/master/bootstrap) under "Variable declarations") to reference your dotfiles. As a starting point, you can [fork mine](http://jsua.co/dotfiles) and then point to your fork.
-* Step 5 (recommended): Install scripts to `~/bin`?
-* Step 6 (recommended): Install and configure Tmuxinator?
-* Step 7 (optional): Install Ukrainian language utilities? Maybe you're interested in some [other language extensions](http://extensions.services.openoffice.org/en/search?f[0]=field_project_tags%3A157)?
-* Step 8 (optional): Install fixed-width fonts?
-* Step 9 (recommended): Use Vundle? If you prefer a different plugin manager, you can add the code for that to this section.
-* Step 10 (optional): Review general macOS settings in `install/macos-defaults` and adjust as needed. `install/macos-dock` ensures that the dock contains only the apps you select. Adjust as desired. (NOTE: The `macos-dock` script depends on the `dockutil` package installed by Homebrew.)
+* Step 5 (optional): Install fixed-width fonts?
+* Step 6 (recommended): Use Vundle? If you prefer a different plugin manager, you can add the code for that to this section.
+* Step 7 (optional): Review general macOS settings in `install/macos-defaults` and adjust as needed. `install/macos-dock` ensures that the dock contains only the apps you select. Adjust as desired. (NOTE: The `macos-dock` script depends on the `dockutil` package installed by Homebrew.)
 
 3) Create `~/.gitconfig.local` and `~/.zshrc.local` and add in your personal information. These files are sourced in `~/.gitconfig` and `~/.zshrc` respectively.
 
