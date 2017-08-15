@@ -24,15 +24,14 @@ bootstrap_echo() {
 osname=$(uname)
 export COMMANDLINE_TOOLS="/Library/Developer/CommandLineTools"
 export OLD_DOTFILES_BACKUP=$HOME/old_dotfiles_backup
-export DICTIONARY_DIR=$HOME/Library/Spelling
 
-export DOTFILES_REPO_URL="https://github.com/joshukraine/dotfiles.git"
+export DOTFILES_REPO_URL="https://github.com/sjdweb/dotfiles.git"
 export DOTFILES_BRANCH="master"
 export DOTFILES_DIR=$HOME/dotfiles
 
-export BOOTSTRAP_REPO_URL="https://github.com/joshukraine/mac-bootstrap.git"
-export BOOTSTRAP_BRANCH="master"
-export BOOTSTRAP_DIR=$HOME/mac-bootstrap
+# export BOOTSTRAP_REPO_URL="https://github.com/sjdweb/mac-bootstrap.git"
+# export BOOTSTRAP_BRANCH="master"
+export BOOTSTRAP_DIR=$HOME/Code/mac-bootstrap
 
 
 ################################################################################
@@ -66,9 +65,9 @@ fi
 ################################################################################
 # Clone mac-bootstrap repo
 ################################################################################
-
-bootstrap_echo "Cloning mac-bootstrap repo..."
-git clone "$BOOTSTRAP_REPO_URL" -b "$BOOTSTRAP_BRANCH" "$BOOTSTRAP_DIR"
+# NOTE: run this locally rather than re-clone.
+# bootstrap_echo "Cloning mac-bootstrap repo..."
+# git clone "$BOOTSTRAP_REPO_URL" -b "$BOOTSTRAP_BRANCH" "$BOOTSTRAP_DIR"
 
 
 ################################################################################
@@ -81,21 +80,21 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 
-################################################################################
-# Set machine name
-################################################################################
+# ################################################################################
+# # Set machine name
+# ################################################################################
 
-printf "\nPlease enter a name for your Mac and press [ENTER] (e.g. Joshua's iMac)\n"
-read -r -p "> " COMPUTER_NAME
-export COMPUTER_NAME
+# printf "\nPlease enter a name for your Mac and press [ENTER] (e.g. Joshua's iMac)\n"
+# read -r -p "> " COMPUTER_NAME
+# export COMPUTER_NAME
 
-printf "\nPlease enter a host name for your Mac and press [ENTER] (e.g. joshuas-imac)\n"
-read -r -p "> " HOST_NAME
-export HOST_NAME
+# printf "\nPlease enter a host name for your Mac and press [ENTER] (e.g. joshuas-imac)\n"
+# read -r -p "> " HOST_NAME
+# export HOST_NAME
 
-printf "\nPlease enter your desired time zone and press [ENTER] (e.g. Europe/Kiev)\n(To view available options run \`sudo systemsetup -listtimezones\`)\n"
-read -r -p "> " TIME_ZONE
-export TIME_ZONE
+# printf "\nPlease enter your desired time zone and press [ENTER] (e.g. Europe/Kiev)\n(To view available options run \`sudo systemsetup -listtimezones\`)\n"
+# read -r -p "> " TIME_ZONE
+# export TIME_ZONE
 
 
 ################################################################################
@@ -156,49 +155,6 @@ git clone "$DOTFILES_REPO_URL" -b "$DOTFILES_BRANCH" "$DOTFILES_DIR"
 
 # shellcheck source=/dev/null
 source "$DOTFILES_DIR"/install.sh
-
-bootstrap_echo "Done!"
-
-
-################################################################################
-# 5. Install ~/bin utilities
-################################################################################
-
-bootstrap_echo "Step 5: Installing ~/bin utilities..."
-
-cp -R "$BOOTSTRAP_DIR"/bin/* "$HOME"/bin/
-
-bootstrap_echo "Done!"
-
-
-################################################################################
-# 6. Set up Tmuxinator (https://github.com/tmuxinator/tmuxinator)
-################################################################################
-
-bootstrap_echo "Step 6: Setting up Tmuxinator..."
-
-gem install tmuxinator
-
-if [ ! -d "$HOME"/.tmuxinator/ ]; then
-  mkdir "$HOME"/.tmuxinator
-fi
-
-cp "$BOOTSTRAP_DIR"/lib/default.yml "$HOME"/.tmuxinator/
-
-bootstrap_echo "Done!"
-
-
-################################################################################
-# 7. Install Ukrainian language utilities
-#
-# Reference:
-# * http://apple.stackexchange.com/a/11842/75491
-# * http://extensions.services.openoffice.org/en/project/ukrainian-dictionary
-################################################################################
-
-bootstrap_echo "Step 7: Installing Ukrainian language utilities..."
-
-cp "$BOOTSTRAP_DIR"/lib/{hyph_uk.dic,uk_UA.aff,uk_UA.dic} "$DICTIONARY_DIR"
 
 bootstrap_echo "Done!"
 

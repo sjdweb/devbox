@@ -26,15 +26,7 @@ brew "hub"
 brew "mas"
 brew "readline"
 brew "python"
-brew "postgresql", service_restart: true
-brew "ruby-build"
-brew "rbenv"
-brew "rbenv-default-gems"
-brew "reattach-to-user-namespace"
-brew "spark"
-brew "ssh-copy-id"
-brew "the_silver_searcher"
-brew "tmux"
+#brew "postgresql", service_restart: true
 brew "tree"
 brew "vim"
 brew "wget"
@@ -45,15 +37,11 @@ brew "thoughtbot/formulae/gitsh"
 # homebrew-cask
 # https://github.com/caskroom/homebrew-cask
 cask "dropbox"
-cask "fantastical"
-cask "google-chrome"
+#cask "google-chrome"
 cask "iterm2"
 cask "skype"
 
 # mas-cli
 # https://github.com/argon/mas
-mas "Evernote", id: 406056744
-mas "1Password", id: 443987910
 mas "Slack", id: 803453959
-mas "Tweetbot", id: 557168941
-mas "OmniFocus", id: 867299399
+# todo: spectacleapp.com
