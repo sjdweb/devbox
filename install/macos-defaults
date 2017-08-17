@@ -237,7 +237,7 @@ defaults write com.apple.finder QuitMenuItem -bool true
 
 # Set the user directory as the default location for new Finder windows
 # More options here: https://github.com/mathiasbynens/dotfiles/blob/96edd4b57047f34ffbcbb708e1e4de3a2e469925/.macos#L233
-defaults write com.apple.finder NewWindowTarget -string "PfDe"
+defaults write com.apple.finder NewWindowTarget -string "PfHm"
 # defaults write com.apple.finder NewWindowTarget -string "PfLo"
 # defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/Dropbox/"
 
@@ -316,7 +316,7 @@ defaults write com.apple.finder OpenWindowForNewRemovableDisk -bool true
 
 # Use column view in all Finder windows by default
 # Four-letter codes for all view modes: `icnv`, `clmv`, `Flwv`, `Nlsv`
-defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
 # Disable the warning before emptying the Trash
 defaults write com.apple.finder WarnOnEmptyTrash -bool false
