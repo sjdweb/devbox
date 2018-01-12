@@ -33,15 +33,20 @@ brew "wget"
 brew "zsh"
 brew "homebrew/dupes/rsync"
 brew "thoughtbot/formulae/gitsh"
+brew "rg"
+brew "kubectl"
 
 # homebrew-cask
 # https://github.com/caskroom/homebrew-cask
+cask "google-chrome"
 cask "dropbox"
-#cask "google-chrome"
 cask "iterm2"
 cask "skype"
+cask "docker"
+cask "spotify"
+cask "spectacle"
+cask "visual-studio-code"
 
 # mas-cli
 # https://github.com/argon/mas
 mas "Slack", id: 803453959
-# todo: spectacleapp.com
