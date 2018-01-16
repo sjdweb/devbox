@@ -35,6 +35,7 @@ brew "homebrew/dupes/rsync"
 brew "thoughtbot/formulae/gitsh"
 brew "rg"
 brew "kubectl"
+brew "jq"
 
 # homebrew-cask
 # https://github.com/caskroom/homebrew-cask
