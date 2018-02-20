@@ -47,6 +47,7 @@ cask "docker"
 cask "spotify"
 cask "spectacle"
 cask "visual-studio-code"
+cask "alfred"
 
 # mas-cli
 # https://github.com/argon/mas
