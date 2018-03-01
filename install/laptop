@@ -99,5 +99,6 @@ if brew list | grep -Fq brew-cask; then
 fi
 
 laptop_echo "Updating Homebrew formulae ..."
+brew analytics off
 brew update
 brew bundle -v --global
