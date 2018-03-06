@@ -177,21 +177,7 @@ bootstrap_echo "Done!"
 
 
 ################################################################################
-# 6. Install Vundle & Vim plugins (https://github.com/VundleVim/Vundle.vim.git)
-################################################################################
-
-bootstrap_echo "Step 6: Installing Vundle and vim plugins..."
-if [ -d "$HOME"/.vim/bundle ]; then
-  rm -rf "$HOME"/.vim/bundle
-fi
-git clone https://github.com/VundleVim/Vundle.vim.git "$HOME"/.vim/bundle/Vundle.vim
-vim +PluginInstall +qall
-
-bootstrap_echo "Done!"
-
-
-################################################################################
-# 7. Set macOS preferences
+# 6. Set macOS preferences
 ################################################################################
 
 bootstrap_echo "Step 10: Setting macOS preferences..."

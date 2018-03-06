@@ -67,8 +67,7 @@ When you invoke `bootstrap`, here's what it does:
 * Step 3: Install [NVM](https://github.com/creationix/nvm) for managing Node.js versions.
 * Step 4: Clone [My Dotfiles for macOS](http://jsua.co/dotfiles) and symlink them to `$HOME`.
 * Step 5: Install several [fixed-width fonts](https://github.com/powerline/fonts).
-* Step 6: Install [Vundle](https://github.com/VundleVim/Vundle.vim.git) and plugins for Vim.
-* Step 7: Set a variety of [macOS defaults](https://github.com/sjdweb/mac-bootstrap/blob/master/install/macos-defaults). (adapted from [https://mths.be/macos](https://mths.be/macos)) Step 10 also customizes the [macOS dock](https://github.com/kcrawford/dockutil).
+* Step 6: Set a variety of [macOS defaults](https://github.com/sjdweb/mac-bootstrap/blob/master/install/macos-defaults). (adapted from [https://mths.be/macos](https://mths.be/macos)) Step 10 also customizes the [macOS dock](https://github.com/kcrawford/dockutil).
 
 NOTE: Previously, I used the `bootstrap` script to set up many of the standard directories I use in my work. But since I now have [Dropbox Plus](https://db.tt/Kmoif6SG), all those directories are downloaded automatically after Dropbox is installed. Once they've synced, I symlink them into place in `$HOME`.
 
@@ -127,8 +126,7 @@ No one else's development setup will ever be a perfect match for you. That said,
 * Step 3 (optional): Install NVM?
 * Step 4 (required): The dotfiles. Update the `$DOTFILES_*` variables (see [`bootstrap`](https://github.com/joshukraine/mac-bootstrap/blob/master/bootstrap) under "Variable declarations") to reference your dotfiles. As a starting point, you can [fork mine](http://jsua.co/dotfiles) and then point to your fork.
 * Step 5 (optional): Install fixed-width fonts?
-* Step 6 (recommended): Use Vundle? If you prefer a different plugin manager, you can add the code for that to this section.
-* Step 7 (optional): Review general macOS settings in `install/macos-defaults` and adjust as needed. `install/macos-dock` ensures that the dock contains only the apps you select. Adjust as desired. (NOTE: The `macos-dock` script depends on the `dockutil` package installed by Homebrew.)
+* Step 6 (optional): Review general macOS settings in `install/macos-defaults` and adjust as needed. `install/macos-dock` ensures that the dock contains only the apps you select. Adjust as desired. (NOTE: The `macos-dock` script depends on the `dockutil` package installed by Homebrew.)
 
 3) Create `~/.gitconfig.local` and `~/.zshrc.local` and add in your personal information. These files are sourced in `~/.gitconfig` and `~/.zshrc` respectively.
 
