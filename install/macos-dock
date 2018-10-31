@@ -8,9 +8,9 @@ dockutil --no-restart --add "/Applications/Contacts.app"
 dockutil --no-restart --add "/Applications/Calendar.app"
 dockutil --no-restart --add "/Applications/Reminders.app"
 dockutil --no-restart --add "/Applications/Notes.app"
-dockutil --no-restart --add "/Applications/Skype.app"
 dockutil --no-restart --add "/Applications/Slack.app"
 dockutil --no-restart --add "/Applications/iTerm.app"
+dockutil --no-restart --add "/Applications/Visual Studio Code.app"
 dockutil --no-restart --add "/Applications/System Preferences.app"
 
 killall Dock
