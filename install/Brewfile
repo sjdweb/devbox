@@ -35,6 +35,7 @@ brew "thoughtbot/formulae/gitsh"
 brew "rg"
 brew "kubectl"
 brew "kubectx"
+brew "kubernetes-helm"
 brew "jq"
 
 # homebrew-cask
