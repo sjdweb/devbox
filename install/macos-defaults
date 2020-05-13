@@ -32,7 +32,7 @@ osascript -e 'tell application "System Preferences" to quit'
 # defaults write com.apple.universalaccess reduceTransparency -bool true
 
 # Dark UI
-defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
+# defaults write NSGlobalDomain AppleInterfaceStyle -string "Dark"
 
 # Menu bar: hide the Time Machine, Volume, and User icons
 # for domain in ~/Library/Preferences/ByHost/com.apple.systemuiserver.*; do
