@@ -17,6 +17,5 @@ dockutil --no-restart --add "/Applications/Spotify.app"
 # Add Directories
 
 dockutil --no-restart --add '/Applications'
-dockutil --no-restart --add '~/Downloads'
 
 killall Dock

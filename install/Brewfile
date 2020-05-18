@@ -8,6 +8,7 @@ tap "homebrew/bundle"
 tap "homebrew/core"
 tap "homebrew/services"
 tap "thoughtbot/formulae"
+tap "homebrew/cask-fonts"
 
 # Homebrew
 # https://github.com/Homebrew/brew/
@@ -49,6 +50,7 @@ cask "spectacle"
 cask "visual-studio-code"
 cask "alfred"
 cask "sublime-text"
+cask "font-jetbrains-mono"
 
 # mas-cli
 # https://github.com/argon/mas
