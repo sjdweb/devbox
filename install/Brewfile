@@ -51,6 +51,7 @@ cask "visual-studio-code"
 cask "alfred"
 cask "sublime-text"
 cask "font-jetbrains-mono"
+cask "font-powerline-symbols"
 
 # mas-cli
 # https://github.com/argon/mas
