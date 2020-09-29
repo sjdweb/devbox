@@ -38,6 +38,7 @@ brew "kubectx"
 brew "kubernetes-helm"
 brew "jq"
 brew "gpg"
+brew "direnv"
 
 # homebrew-cask
 # https://github.com/caskroom/homebrew-cask
