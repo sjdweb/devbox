@@ -24,6 +24,7 @@ brew "hub"
 brew "mas"
 brew "readline"
 brew "python"
+brew "pyenv"
 #brew "postgresql", service_restart: true
 brew "tree"
 brew "vim"
@@ -35,10 +36,12 @@ brew "thoughtbot/formulae/gitsh"
 brew "rg"
 brew "kubectl"
 brew "kubectx"
+brew "k9s"
 brew "helm"
 brew "jq"
 brew "gpg"
 brew "direnv"
+brew "tmux"
 
 # homebrew-cask
 # https://github.com/caskroom/homebrew-cask
