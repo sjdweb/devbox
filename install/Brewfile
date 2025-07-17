@@ -48,9 +48,9 @@ cask "brave-browser"
 cask "google-chrome"
 
 # Terminal and dev tools
-cask "iterm2"
 cask "ghostty"
 cask "raycast"
+cask "visual-studio-code"
 cask "sublime-text"
 
 # Fonts (now in main cask repo)
