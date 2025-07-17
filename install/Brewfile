@@ -29,7 +29,6 @@ brew "python"
 brew "pyenv"
 brew "vim"
 brew "neovim"
-brew "thoughtbot/formulae/gitsh"
 brew "ripgrep"
 brew "fzf"
 
