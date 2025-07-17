@@ -56,7 +56,6 @@ sudo apt-get install -y \
   zsh \
   tmux \
   vim \
-  neovim \
   ripgrep \
   fzf \
   jq \

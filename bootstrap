@@ -156,14 +156,91 @@ if ! command -v pnpm >/dev/null 2>&1; then
   curl -fsSL https://get.pnpm.io/install.sh | env SHELL=/bin/bash sh -
 fi
 
+# Setup Node.js LTS with pnpm
+bootstrap_echo "Setting up Node.js LTS with pnpm..."
+
+# Source pnpm if just installed
+if [ "$OS_TYPE" == "macos" ]; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+else
+  export PNPM_HOME="$HOME/.local/share/pnpm"
+fi
+export PATH="$PNPM_HOME:$PATH"
+
+# Install and use Node.js LTS
+pnpm env add --global lts
+pnpm env use --global lts
+
 bootstrap_echo "Done!"
 
 
 ################################################################################
-# 4. Setup dotfiles
+# 4. Install Neovim via asdf
 ################################################################################
 
-bootstrap_echo "Step 4: Installing dotfiles..."
+bootstrap_echo "Step 4: Installing Neovim via asdf..."
+
+# Source asdf
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+  . "$HOME/.asdf/asdf.sh"
+fi
+
+# Install Neovim via asdf
+bootstrap_echo "Installing Neovim via asdf..."
+if ! asdf plugin list | grep -q neovim; then
+  bootstrap_echo "Adding Neovim asdf plugin..."
+  asdf plugin add neovim
+fi
+bootstrap_echo "Installing latest Neovim..."
+asdf install neovim latest
+asdf global neovim latest
+
+# Install Go (system install)
+if ! command -v go >/dev/null 2>&1; then
+  bootstrap_echo "Installing Go..."
+  if [ "$OS_TYPE" == "linux" ]; then
+    # Install Go on Linux - detect architecture
+    ARCH=$(uname -m)
+    case $ARCH in
+      x86_64) GOARCH="amd64" ;;
+      aarch64) GOARCH="arm64" ;;
+      *) bootstrap_echo "Unsupported architecture: $ARCH"; exit 1 ;;
+    esac
+    
+    GO_VERSION=$(curl -s https://go.dev/VERSION?m=text | head -n1)
+    bootstrap_echo "Downloading Go ${GO_VERSION} for linux-${GOARCH}..."
+    
+    curl -L "https://go.dev/dl/${GO_VERSION}.linux-${GOARCH}.tar.gz" -o /tmp/go.tar.gz
+    sudo rm -rf /usr/local/go
+    sudo tar -C /usr/local -xzf /tmp/go.tar.gz
+    rm /tmp/go.tar.gz
+  fi
+  # macOS will use Homebrew (already in Brewfile)
+fi
+
+# Install UV for Python
+if ! command -v uv >/dev/null 2>&1; then
+  bootstrap_echo "Installing UV (Python package manager)..."
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+
+# Setup Python with UV
+bootstrap_echo "Setting up Python with UV..."
+# Source UV if just installed
+export PATH="$HOME/.local/bin:$PATH"
+
+# Install latest Python as default
+uv python install --default --preview
+bootstrap_echo "Python installed via UV as default"
+
+bootstrap_echo "Done!"
+
+
+################################################################################
+# 5. Setup dotfiles
+################################################################################
+
+bootstrap_echo "Step 5: Installing dotfiles..."
 
 if [[ -d $DOTFILES_DIR ]]; then
   bootstrap_echo "Backing up old dotfiles to $HOME/old_dotfiles_backup..."
@@ -189,11 +266,11 @@ fi
 
 
 ################################################################################
-# 5. Install Powerline-patched fonts (macOS only - GUI terminals)
+# 6. Install Powerline-patched fonts (macOS only - GUI terminals)
 ################################################################################
 
 if [ "$OS_TYPE" == "macos" ]; then
-  bootstrap_echo "Step 5: Installing fixed-width fonts patched for use with Powerline symbols..."
+  bootstrap_echo "Step 6: Installing fixed-width fonts patched for use with Powerline symbols..."
   if [ -d "$HOME"/src/fonts ]; then
     rm -rf "$HOME"/src/fonts
   fi
@@ -210,11 +287,11 @@ fi
 
 
 ################################################################################
-# 6. Set OS-specific preferences
+# 7. Set OS-specific preferences
 ################################################################################
 
 if [ "$OS_TYPE" == "macos" ]; then
-  bootstrap_echo "Step 6: Setting macOS preferences..."
+  bootstrap_echo "Step 7: Setting macOS preferences..."
   
   # shellcheck source=/dev/null
   source "$DEVBOX_DIR"/install/macos-defaults

@@ -25,10 +25,8 @@ brew "zsh"
 brew "starship"
 
 # Development tools
-brew "python"
-brew "pyenv"
+brew "go"
 brew "vim"
-brew "neovim"
 brew "ripgrep"
 brew "fzf"
 
