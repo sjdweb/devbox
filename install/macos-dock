@@ -1,21 +1,35 @@
 #!/usr/bin/env bash
 
+# Configure the Dock with essential apps
+# Note: This requires dockutil to be installed via Homebrew
+
+echo "Configuring Dock..."
+
+# Remove all existing dock items
 dockutil --no-restart --remove all
-dockutil --no-restart --add "/System/Applications/Launchpad.app"
-dockutil --no-restart --add "/Applications/Google Chrome.app"
-dockutil --no-restart --add "/Applications/Safari.app"
-dockutil --no-restart --add "/System/Applications/Calendar.app"
-dockutil --no-restart --add "/System/Applications/Reminders.app"
-dockutil --no-restart --add "/System/Applications/Notes.app"
-dockutil --no-restart --add "/Applications/Slack.app"
-dockutil --no-restart --add "/System/Applications/Messages.app"
-dockutil --no-restart --add "/Applications/iTerm.app"
-dockutil --no-restart --add "/Applications/Visual Studio Code.app"
-dockutil --no-restart --add "/System/Applications/System Preferences.app"
-dockutil --no-restart --add "/Applications/Spotify.app"
 
-# Add Directories
+# Add essential apps (customize based on what's actually installed)
+apps=(
+    "/Applications/Firefox.app"
+    "/Applications/Brave Browser.app"
+    "/Applications/Google Chrome.app"
+    "/Applications/Ghostty.app"
+    "/Applications/iTerm.app"
+    "/System/Applications/Messages.app"
+    "/Applications/Slack.app"
+    "/Applications/Spotify.app"
+)
 
-dockutil --no-restart --add '/Applications'
+for app in "${apps[@]}"; do
+    if [ -e "$app" ]; then
+        dockutil --no-restart --add "$app"
+    fi
+done
 
+# Add Downloads folder
+dockutil --no-restart --add ~/Downloads --display folder --view list
+
+# Restart Dock to apply changes
 killall Dock
+
+echo "Dock configured."
