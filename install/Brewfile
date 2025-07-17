@@ -1,11 +1,8 @@
 # https://github.com/Homebrew/homebrew-bundle
 # Devbox Brewfile - Modern development environment setup
 
-tap "homebrew/bundle"
-tap "homebrew/core"
-tap "homebrew/services"
+# Only tap what we actually need
 tap "thoughtbot/formulae"
-tap "homebrew/cask-fonts"
 
 # Core tools
 brew "openssl"
@@ -56,7 +53,7 @@ cask "ghostty"
 cask "raycast"
 cask "sublime-text"
 
-# Fonts
+# Fonts (now in main cask repo)
 cask "font-jetbrains-mono"
 cask "font-jetbrains-mono-nerd-font"
 
