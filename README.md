@@ -1,89 +1,77 @@
-Devbox
-======
+# Devbox
 
-A cross-platform bootstrap script for setting up a modern development environment on macOS and Linux.
+A fast, modern development environment setup for macOS and Linux.
 
-## What is Devbox?
+## Quick Start
 
-Devbox automates the setup of a new development machine with:
-- Modern shell environment (Zsh + Starship prompt)
-- Essential development tools
-- Consistent configurations across macOS and Linux
-- Fast, maintainable setup process
-
-## Prerequisites
-
-### macOS
-- macOS Sequoia or later (Apple Silicon optimized)
-- Sign in to iCloud (for Mac App Store apps)
-- Install Xcode Command Line Tools:
-  ```sh
-  xcode-select --install
-  ```
-
-### Linux (Ubuntu/Debian)
-- Ubuntu 20.04+ or Debian 11+
-- sudo access
-
-## Installation
-
-Clone this repository and run the bootstrap script:
-
-```sh
-git clone https://github.com/sjdweb/devbox.git ~/Code/devbox
-cd ~/Code/devbox
+```bash
+git clone https://github.com/sjdweb/devbox.git
+cd devbox
 ./bootstrap
 ```
 
-## What Does It Install?
+## What's Included
 
-### Core Tools (All Platforms)
-- **Shell**: Zsh with Starship prompt (fast, minimal)
-- **Version Management**: asdf (for Python, Node, Ruby, etc.)
-- **Node.js**: pnpm for package management and Node version control
-- **Editor**: Neovim (with optional LazyVim configuration)
-- **Utilities**: ripgrep, fzf, bat, delta, tmux, git
+### Core Tools
+- **Shell**: Zsh + Zap (lightweight plugin manager) + Starship prompt
+- **Editor**: Neovim with LazyVim (full IDE experience)
+- **Terminal**: Ghostty (with Tokyo Night theme)
+- **Version Management**:
+  - Node.js via pnpm (`pnpm env use --global lts`)
+  - Python via UV (`uv python install --default --preview`)
+  - Go via system install
+  - Other tools via asdf (currently just Neovim)
 
-### macOS Specific
-- Homebrew package manager
-- Browsers: Firefox (primary), Brave, Chrome
-- Development apps: iTerm2, Ghostty, Raycast
-- Fonts: JetBrains Mono (with Nerd Font variant)
-- Mac App Store apps: Slack
+### Key Features
+- Single configuration files work on both macOS and Linux
+- 10x faster shell startup (no oh-my-zsh)
+- Modern tooling (UV for Python, pnpm for Node.js)
+- Minimal macOS defaults (Finder + Dock only)
 
-### Dotfiles Integration
-The bootstrap script clones and installs dotfiles from:
+### Browsers
+- Firefox (primary)
+- Brave, Chrome (secondary)
+
+### Development
+- Git, tmux, ripgrep, fzf
+- Docker/Kubernetes tools (kubectl, k9s, helm)
+- VSCode, Sublime Text (using their cloud sync)
+
+## Structure
+
 ```
-https://github.com/sjdweb/dotfiles
+devbox/
+├── bootstrap          # Main setup script
+├── install/
+│   ├── Brewfile      # macOS packages
+│   ├── setup-macos.sh
+│   ├── setup-linux.sh
+│   ├── macos-defaults # Minimal Finder/Dock settings
+│   └── macos-dock    # Dock app configuration
+└── docker-compose.yml # Test environment
+
+dotfiles/             # Separate repo, cloned during bootstrap
+├── zshrc
+├── config/
+│   ├── nvim/        # LazyVim configuration
+│   ├── ghostty/
+│   └── starship.toml
+└── ...
 ```
 
-## Key Improvements
+## Testing
 
-- **10x faster shell startup** - No Oh-My-Zsh overhead
-- **Instant Node switching** - pnpm instead of nvm
-- **Cross-platform** - Single bootstrap for macOS and Linux
-- **Modern tools** - Starship, delta, bat, etc.
-- **Simplified** - One tool (asdf) for all version management
+Test the setup in Docker:
 
-## Post-Installation
+```bash
+docker-compose up -d
+docker exec -it devbox-test bash
+cd /devbox && ./bootstrap
+```
 
-1. Restart your shell (or computer on macOS)
-2. Configure git with your personal info:
-   ```sh
-   git config --global user.name "Your Name"
-   git config --global user.email "your.email@example.com"
-   ```
-3. Set up asdf plugins as needed:
-   ```sh
-   asdf plugin add nodejs
-   asdf plugin add python
-   ```
+## Philosophy
 
-## Customization
-
-- Personal shell configuration: `~/.zshrc.local`
-- Personal git configuration: `~/.gitconfig.local`
-
-## License
-
-MIT License - see LICENSE file for details.
+- **Fast**: No unnecessary overhead, modern tools
+- **Simple**: One way to do things, minimal configuration
+- **Maintainable**: Easy to understand in a year
+- **Cross-platform**: Same experience on macOS and Linux
