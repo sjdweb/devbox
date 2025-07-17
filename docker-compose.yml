@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  devbox-test:
+    build: 
+      context: ../
+      dockerfile: devbox/Dockerfile
+    container_name: devbox-test
+    stdin_open: true
+    tty: true
+    environment:
+      - TERM=xterm-256color

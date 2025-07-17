@@ -3,8 +3,8 @@
 ################################################################################
 # bootstrap
 #
-# This script is intended to set up a new Mac computer with my dotfiles and
-# other development preferences.
+# This script sets up a new machine (macOS or Linux) with dotfiles and
+# development preferences.
 ################################################################################
 
 
@@ -25,59 +25,66 @@ osname=$(uname)
 export COMMANDLINE_TOOLS="/Library/Developer/CommandLineTools"
 export OLD_DOTFILES_BACKUP=$HOME/old_dotfiles_backup
 
-export DOTFILES_REPO_URL="git@github.com:sjdweb/dotfiles.git"
+# Use HTTPS for dotfiles to avoid SSH key issues
+export DOTFILES_REPO_URL="https://github.com/sjdweb/dotfiles.git"
 export DOTFILES_BRANCH="master"
 export DOTFILES_DIR=$HOME/dotfiles
 
 # export BOOTSTRAP_REPO_URL="https://github.com/sjdweb/mac-bootstrap.git"
 # export BOOTSTRAP_BRANCH="master"
-export BOOTSTRAP_DIR=$HOME/Code/mac-bootstrap
+export DEVBOX_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 
 ################################################################################
-# Make sure we're on a Mac before continuing
+# OS Detection and Setup
 ################################################################################
 
-if [ "$osname" == "Linux" ]; then
-  bootstrap_echo "Oops, looks like you're on a Linux machine. Please have a look at
-  my Linux Bootstrap script: https://github.com/joshukraine/linux-bootstrap"
-  exit 1
-elif [ "$osname" != "Darwin" ]; then
-  bootstrap_echo "Oops, it looks like you're using a non-UNIX system. This script
-only supports Mac. Exiting..."
-  exit 1
-fi
-
-
-################################################################################
-# Check for presence of command line tools if macOS
-################################################################################
-
-if [ ! -d "$COMMANDLINE_TOOLS" ]; then
-  bootstrap_echo "Apple's command line developer tools must be installed before
+if [ "$osname" == "Darwin" ]; then
+  bootstrap_echo "Detected macOS ($(sw_vers -productVersion))"
+  export OS_TYPE="macos"
+  export COMMANDLINE_TOOLS="/Library/Developer/CommandLineTools"
+  
+  # Check for command line tools on macOS
+  if [ ! -d "$COMMANDLINE_TOOLS" ]; then
+    bootstrap_echo "Apple's command line developer tools must be installed before
 running this script. To install them, just run 'xcode-select --install' from
 the terminal and then follow the prompts. Once the command line tools have been
 installed, you can try running this script again."
+    exit 1
+  fi
+  
+elif [ "$osname" == "Linux" ]; then
+  if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    bootstrap_echo "Detected Linux: $NAME $VERSION"
+    export OS_TYPE="linux"
+    export LINUX_DISTRO="$ID"
+  else
+    bootstrap_echo "Unknown Linux distribution"
+    export OS_TYPE="linux"
+    export LINUX_DISTRO="unknown"
+  fi
+else
+  bootstrap_echo "Unsupported operating system: $osname"
   exit 1
 fi
 
 
 ################################################################################
-# Clone mac-bootstrap repo
+# Setup devbox directory
 ################################################################################
-# NOTE: run this locally rather than re-clone.
-# bootstrap_echo "Cloning mac-bootstrap repo..."
-# git clone "$BOOTSTRAP_REPO_URL" -b "$BOOTSTRAP_BRANCH" "$BOOTSTRAP_DIR"
+# NOTE: Assuming script is run from the devbox directory
 
 
 ################################################################################
-# Authenticate
+# Authenticate (macOS and Linux may need sudo)
 ################################################################################
 
-sudo -v
-
-# Keep-alive: update existing `sudo` time stamp until bootstrap has finished
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+if command -v sudo >/dev/null 2>&1; then
+  sudo -v
+  # Keep-alive: update existing `sudo` time stamp until bootstrap has finished
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+fi
 
 
 # ################################################################################
@@ -98,46 +105,62 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 
 ################################################################################
-# 1. Provision with my adaptation of Laptop (install/laptop)
+# 1. Run OS-specific setup
 ################################################################################
 
-bootstrap_echo "Step 1: Installing Laptop script..."
+bootstrap_echo "Step 1: Running OS-specific setup..."
 
-cp "$BOOTSTRAP_DIR"/install/Brewfile "$HOME"/.Brewfile
-sh "$BOOTSTRAP_DIR"/install/laptop 2>&1 | tee ~/laptop.log
-
-bootstrap_echo "Done!"
-
-
-################################################################################
-# 2. Install Oh-My-Zsh (http://ohmyz.sh/)
-################################################################################
-
-bootstrap_echo "Step 2: Installing Oh-My-Zsh..."
-
-if [ -d "$HOME"/.oh-my-zsh ]; then
-  rm -rf "$HOME"/.oh-my-zsh
+if [ "$OS_TYPE" == "macos" ]; then
+  cp "$DEVBOX_DIR"/install/Brewfile "$HOME"/.Brewfile
+  sh "$DEVBOX_DIR"/install/setup-macos.sh 2>&1 | tee ~/devbox-setup.log
+elif [ "$OS_TYPE" == "linux" ]; then
+  sh "$DEVBOX_DIR"/install/setup-linux.sh 2>&1 | tee ~/devbox-setup.log
 fi
 
-git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+bootstrap_echo "Done!"
+
+
+################################################################################
+# 2. Install shell enhancements
+################################################################################
+
+bootstrap_echo "Step 2: Installing shell enhancements..."
+
+# Install starship prompt
+if ! command -v starship >/dev/null 2>&1; then
+  bootstrap_echo "Installing Starship prompt..."
+  curl -sS https://starship.rs/install.sh | sh -s -- -y
+fi
 
 bootstrap_echo "Done!"
 
 
 ################################################################################
-# 3. Install NVM (https://github.com/creationix/nvm)
+# 3. Setup development tools
 ################################################################################
 
-bootstrap_echo "Step 3: Installing NVM..."
+bootstrap_echo "Step 3: Setting up development tools..."
 
-# shellcheck source=/dev/null
-source "$BOOTSTRAP_DIR"/install/nvm
+# Install asdf for version management
+if [ ! -d "$HOME/.asdf" ]; then
+  bootstrap_echo "Installing asdf..."
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.14.0
+else
+  bootstrap_echo "asdf already installed, skipping..."
+fi
+
+# Install pnpm if not already installed
+if ! command -v pnpm >/dev/null 2>&1; then
+  bootstrap_echo "Installing pnpm..."
+  # Use standalone installation method
+  curl -fsSL https://get.pnpm.io/install.sh | env SHELL=/bin/bash sh -
+fi
 
 bootstrap_echo "Done!"
 
 
 ################################################################################
-# 4. Setup dotfiles (http://jsua.co/dotfiles)
+# 4. Setup dotfiles
 ################################################################################
 
 bootstrap_echo "Step 4: Installing dotfiles..."
@@ -158,42 +181,55 @@ source "$DOTFILES_DIR"/install.sh
 
 bootstrap_echo "Done!"
 
-
-################################################################################
-# 5. Install Powerline-patched fonts
-################################################################################
-
-bootstrap_echo "Step 5: Installing fixed-width fonts patched for use with Powerline symbols..."
-if [ -d "$HOME"/src/fonts ]; then
-  rm -rf "$HOME"/src/fonts
+# Install Zap plugin manager (after dotfiles so zsh config is ready)
+if [ ! -f "$HOME/.local/share/zap/zap.zsh" ]; then
+  bootstrap_echo "Installing Zap plugin manager..."
+  zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1 --keep
 fi
-git clone https://github.com/powerline/fonts.git "$HOME"/src/fonts
-cd "$HOME"/src/fonts || exit
-./install.sh
-cd "$HOME" || exit
-rm -rf "$HOME"/src/fonts
-
-bootstrap_echo "Done!"
 
 
 ################################################################################
-# 6. Set macOS preferences
+# 5. Install Powerline-patched fonts (macOS only - GUI terminals)
 ################################################################################
 
-bootstrap_echo "Step 10: Setting macOS preferences..."
+if [ "$OS_TYPE" == "macos" ]; then
+  bootstrap_echo "Step 5: Installing fixed-width fonts patched for use with Powerline symbols..."
+  if [ -d "$HOME"/src/fonts ]; then
+    rm -rf "$HOME"/src/fonts
+  fi
+  git clone https://github.com/powerline/fonts.git "$HOME"/src/fonts
+  cd "$HOME"/src/fonts || exit
+  ./install.sh
+  cd "$HOME" || exit
+  rm -rf "$HOME"/src/fonts
+  
+  bootstrap_echo "Done!"
+else
+  bootstrap_echo "Step 5: Skipping font installation on Linux (fonts are primarily for GUI terminals)"
+fi
 
-# shellcheck source=/dev/null
-source "$BOOTSTRAP_DIR"/install/macos-defaults
 
-# shellcheck source=/dev/null
-source "$BOOTSTRAP_DIR"/install/macos-dock
+################################################################################
+# 6. Set OS-specific preferences
+################################################################################
 
-rm -rf "$BOOTSTRAP_DIR"
-
-bootstrap_echo "Done!"
+if [ "$OS_TYPE" == "macos" ]; then
+  bootstrap_echo "Step 6: Setting macOS preferences..."
+  
+  # shellcheck source=/dev/null
+  source "$DEVBOX_DIR"/install/macos-defaults
+  
+  # shellcheck source=/dev/null
+  source "$DEVBOX_DIR"/install/macos-dock
+  
+  bootstrap_echo "Done!"
+fi
 
 echo
 echo "**********************************************************************"
-echo "**** Mac Bootstrap script complete! Please restart your computer. ****"
+echo "**** Devbox setup complete! Please restart your shell. ****"
+if [ "$OS_TYPE" == "macos" ]; then
+  echo "**** For full effect, restart your Mac. ****"
+fi
 echo "**********************************************************************"
 echo

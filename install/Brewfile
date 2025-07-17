@@ -1,8 +1,5 @@
 # https://github.com/Homebrew/homebrew-bundle
-# In order to speed the initial bootstrap process, this Brewfile only installs
-# essentials. A more complete Brewfile is symlinked to the home directory when
-# the dotfiles are installed. After the initial bootstrap is complete, run
-# `brew bundle install --global`
+# Devbox Brewfile - Modern development environment setup
 
 tap "homebrew/bundle"
 tap "homebrew/core"
@@ -10,8 +7,7 @@ tap "homebrew/services"
 tap "thoughtbot/formulae"
 tap "homebrew/cask-fonts"
 
-# Homebrew
-# https://github.com/Homebrew/brew/
+# Core tools
 brew "openssl"
 brew "libyaml"
 brew "bash-completion"
@@ -21,38 +17,51 @@ brew "git"
 brew "htop"
 brew "mas"
 brew "readline"
+brew "wget"
+brew "tree"
+brew "tmux"
+brew "gpg"
+brew "jq"
+
+# Modern shell and prompt
+brew "zsh"
+brew "starship"
+
+# Development tools
 brew "python"
 brew "pyenv"
-#brew "postgresql", service_restart: true
-brew "tree"
 brew "vim"
 brew "neovim"
-brew "wget"
-brew "zsh"
-brew "zsh-autosuggestions"
 brew "thoughtbot/formulae/gitsh"
-brew "rg"
+brew "ripgrep"
 brew "fzf"
+
+# Version management
+brew "asdf"
+brew "pnpm"
+
+# Container and orchestration
 brew "kubectl"
-brew "kubectx"
 brew "k9s"
 brew "helm"
-brew "jq"
-brew "gpg"
-brew "direnv"
-brew "tmux"
 
-# homebrew-cask
-# https://github.com/caskroom/homebrew-cask
+# Browsers
+cask "firefox"
+cask "brave-browser"
 cask "google-chrome"
+
+# Terminal and dev tools
 cask "iterm2"
 cask "ghostty"
-cask "spotify"
 cask "raycast"
 cask "sublime-text"
-cask "font-jetbrains-mono"
-cask "font-powerline-symbols"
 
-# mas-cli
-# https://github.com/argon/mas
+# Fonts
+cask "font-jetbrains-mono"
+cask "font-jetbrains-mono-nerd-font"
+
+# Applications
+cask "spotify"
+
+# Mac App Store
 mas "Slack", id: 803453959
