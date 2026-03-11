@@ -66,4 +66,11 @@ fi
 dotfiles_echo "-> Linking $DOTFILES_DIR/config/ghostty/config to $CONFIG_DIR/ghostty/config..."
 ln -nfs "$DOTFILES_DIR/config/ghostty/config" "$CONFIG_DIR/ghostty/config"
 
+# Source shellenv from .bashrc (for LLM agents and bash login sessions)
+SHELLENV_SOURCE=". \"$DOTFILES_DIR/shellenv\""
+if [ -f "$HOME/.bashrc" ] && ! grep -Fq "shellenv" "$HOME/.bashrc"; then
+  dotfiles_echo "-> Adding shellenv source to .bashrc..."
+  printf '\n# devbox shared environment\n%s\n' "$SHELLENV_SOURCE" >> "$HOME/.bashrc"
+fi
+
 dotfiles_echo "Dotfiles installation complete!"

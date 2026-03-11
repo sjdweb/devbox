@@ -1,27 +1,26 @@
 # ~/.zshrc
 
-# Core environment variables
-export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin
-export EDITOR="nvim"
+# Shared environment (PATH, asdf, pnpm, go — also used by .bashrc)
+DEVBOX_DIR="${DEVBOX_DIR:-$HOME/devbox}"
+source $DEVBOX_DIR/dotfiles/shellenv
+
+# Zsh-specific environment
 export BUNDLER_EDITOR="nvim"
-export MANPAGER="less -X" # Don't clear the screen after quitting a manual page
+export MANPAGER="less -X"
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
 export SOURCE_ANNOTATION_DIRECTORIES="spec"
 export DISABLE_AUTO_TITLE=true
 export _Z_OWNER=$USER
 
 # Zsh options
 setopt auto_cd
-setopt append_history          # Append to history file on exit
-setopt inc_append_history      # Write commands as entered (for safety)
+setopt append_history
+setopt inc_append_history
 setopt hist_ignore_dups
 setopt hist_ignore_space
-setopt hist_expire_dups_first  # Expire duplicates first when trimming
-setopt hist_verify             # Show command before executing from history
+setopt hist_expire_dups_first
+setopt hist_verify
 
-# Make word operations stop at path separators (like oh-my-zsh did)
 WORDCHARS=${WORDCHARS//\//}
 
 cdpath=($HOME/Code $HOME/devbox $HOME/Developer $HOME/Sites $HOME/Dropbox $HOME)
@@ -33,7 +32,6 @@ HISTFILE=~/.zsh_history
 HIST_STAMPS="yyyy-mm-dd"
 
 # Load modular configuration
-DEVBOX_DIR="${DEVBOX_DIR:-$HOME/devbox}"
 source $DEVBOX_DIR/dotfiles/zsh/aliases
 source $DEVBOX_DIR/dotfiles/zsh/functions
 source $DEVBOX_DIR/dotfiles/zsh/z.sh
@@ -41,22 +39,6 @@ source $DEVBOX_DIR/dotfiles/zsh/z.sh
 # Load completions
 autoload -Uz compinit
 compinit
-
-# pnpm (cross-platform)
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  export PNPM_HOME="$HOME/Library/pnpm"
-else
-  export PNPM_HOME="$HOME/.local/share/pnpm"
-fi
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-# asdf version manager
-if [ -f "$HOME/.asdf/asdf.sh" ]; then
-  . "$HOME/.asdf/asdf.sh"
-fi
 
 # Starship prompt
 if command -v starship &> /dev/null; then
@@ -85,9 +67,6 @@ bindkey '^[f' forward-word         # Option+f / ESC+f
 
 # fzf key bindings and fuzzy completion
 command -v fzf &> /dev/null && source <(fzf --zsh)
-
-# UV (Python package manager)
-export PATH="$HOME/.local/bin:$PATH"
 
 # Remove duplicate PATH entries
 typeset -U PATH path

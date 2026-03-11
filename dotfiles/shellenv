@@ -1,0 +1,27 @@
+# Shared environment for bash and zsh
+# Sourced by both .zshrc and .bashrc/.profile to ensure tools are available
+# regardless of which shell is active (important for LLM agents using bash).
+
+export EDITOR="nvim"
+export GOPATH="$HOME/go"
+
+# Core PATH
+export PATH="$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/go/bin:$GOPATH/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+# pnpm
+if [ "$(uname)" = "Darwin" ]; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+else
+  export PNPM_HOME="$HOME/.local/share/pnpm"
+fi
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# asdf version manager
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+  . "$HOME/.asdf/asdf.sh"
+fi
