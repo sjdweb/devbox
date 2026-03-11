@@ -67,9 +67,8 @@ echo ""
 echo "4. Dotfiles:"
 check_symlink ~/.gitconfig
 check_symlink ~/.npmrc
-check_symlink ~/.vimrc
 check_symlink ~/.tmux.conf
-check_file ~/dotfiles
+check_file ~/devbox/dotfiles
 
 echo ""
 echo "5. Testing zsh configuration:"

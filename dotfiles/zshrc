@@ -1,0 +1,96 @@
+# ~/.zshrc
+
+# Core environment variables
+export PATH=$HOME/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin
+export EDITOR="nvim"
+export BUNDLER_EDITOR="nvim"
+export MANPAGER="less -X" # Don't clear the screen after quitting a manual page
+export HOMEBREW_CASK_OPTS="--appdir=/Applications"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin:/usr/local/go/bin
+export SOURCE_ANNOTATION_DIRECTORIES="spec"
+export DISABLE_AUTO_TITLE=true
+export _Z_OWNER=$USER
+
+# Zsh options
+setopt auto_cd
+setopt append_history          # Append to history file on exit
+setopt inc_append_history      # Write commands as entered (for safety)
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_expire_dups_first  # Expire duplicates first when trimming
+setopt hist_verify             # Show command before executing from history
+
+# Make word operations stop at path separators (like oh-my-zsh did)
+WORDCHARS=${WORDCHARS//\//}
+
+cdpath=($HOME/Code $HOME/devbox $HOME/Developer $HOME/Sites $HOME/Dropbox $HOME)
+
+# History configuration
+HISTSIZE=1000000
+SAVEHIST=1000000
+HISTFILE=~/.zsh_history
+HIST_STAMPS="yyyy-mm-dd"
+
+# Load modular configuration
+DEVBOX_DIR="${DEVBOX_DIR:-$HOME/devbox}"
+source $DEVBOX_DIR/dotfiles/zsh/aliases
+source $DEVBOX_DIR/dotfiles/zsh/functions
+source $DEVBOX_DIR/dotfiles/zsh/z.sh
+
+# Load completions
+autoload -Uz compinit
+compinit
+
+# pnpm (cross-platform)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+else
+  export PNPM_HOME="$HOME/.local/share/pnpm"
+fi
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# asdf version manager
+if [ -f "$HOME/.asdf/asdf.sh" ]; then
+  . "$HOME/.asdf/asdf.sh"
+fi
+
+# Starship prompt
+if command -v starship &> /dev/null; then
+  eval "$(starship init zsh)"
+fi
+
+# Zap plugin manager
+[ -f "$HOME/.local/share/zap/zap.zsh" ] && source "$HOME/.local/share/zap/zap.zsh"
+
+# Plugins
+plug "zsh-users/zsh-autosuggestions"
+plug "zsh-users/zsh-syntax-highlighting"
+plug "zsh-users/zsh-history-substring-search"
+
+# Bind keys for history substring search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^[OA' history-substring-search-up
+bindkey '^[OB' history-substring-search-down
+
+# Word navigation (cross-terminal compatibility)
+bindkey '^[[1;3D' backward-word    # Alt+Left
+bindkey '^[[1;3C' forward-word     # Alt+Right
+bindkey '^[b' backward-word        # Option+b / ESC+b
+bindkey '^[f' forward-word         # Option+f / ESC+f
+
+# fzf key bindings and fuzzy completion
+command -v fzf &> /dev/null && source <(fzf --zsh)
+
+# UV (Python package manager)
+export PATH="$HOME/.local/bin:$PATH"
+
+# Remove duplicate PATH entries
+typeset -U PATH path
+
+# Include local settings
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

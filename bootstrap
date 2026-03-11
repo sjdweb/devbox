@@ -23,16 +23,14 @@ bootstrap_echo() {
 
 osname=$(uname)
 export COMMANDLINE_TOOLS="/Library/Developer/CommandLineTools"
-export OLD_DOTFILES_BACKUP=$HOME/old_dotfiles_backup
-
-# Use HTTPS for dotfiles to avoid SSH key issues
-export DOTFILES_REPO_URL="https://github.com/sjdweb/dotfiles.git"
-export DOTFILES_BRANCH="master"
-export DOTFILES_DIR=$HOME/dotfiles
-
-# export BOOTSTRAP_REPO_URL="https://github.com/sjdweb/mac-bootstrap.git"
-# export BOOTSTRAP_BRANCH="master"
 export DEVBOX_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if [ "$DEVBOX_DIR" != "$HOME/devbox" ]; then
+  bootstrap_echo "WARNING: devbox is at $DEVBOX_DIR but should be at ~/devbox"
+  bootstrap_echo "Shell configuration expects devbox at ~/devbox."
+  bootstrap_echo "Move it there or create a symlink: ln -s $DEVBOX_DIR ~/devbox"
+  exit 1
+fi
 
 
 ################################################################################
@@ -112,9 +110,9 @@ bootstrap_echo "Step 1: Running OS-specific setup..."
 
 if [ "$OS_TYPE" == "macos" ]; then
   cp "$DEVBOX_DIR"/install/Brewfile "$HOME"/.Brewfile
-  sh "$DEVBOX_DIR"/install/setup-macos.sh 2>&1 | tee ~/devbox-setup.log
+  bash "$DEVBOX_DIR"/install/setup-macos.sh 2>&1 | tee ~/devbox-setup.log
 elif [ "$OS_TYPE" == "linux" ]; then
-  sh "$DEVBOX_DIR"/install/setup-linux.sh 2>&1 | tee ~/devbox-setup.log
+  bash "$DEVBOX_DIR"/install/setup-linux.sh 2>&1 | tee ~/devbox-setup.log
 fi
 
 bootstrap_echo "Done!"
@@ -242,19 +240,8 @@ bootstrap_echo "Done!"
 
 bootstrap_echo "Step 5: Installing dotfiles..."
 
-if [[ -d $DOTFILES_DIR ]]; then
-  bootstrap_echo "Backing up old dotfiles to $HOME/old_dotfiles_backup..."
-  rm -rf "$OLD_DOTFILES_BACKUP"
-  cp -R "$DOTFILES_DIR" "$OLD_DOTFILES_BACKUP"
-  rm -rf "$DOTFILES_DIR"
-fi
-
-bootstrap_echo "Cloning dotfiles repo to ${DOTFILES_DIR} ..."
-
-git clone "$DOTFILES_REPO_URL" -b "$DOTFILES_BRANCH" "$DOTFILES_DIR"
-
 # shellcheck source=/dev/null
-source "$DOTFILES_DIR"/install.sh
+source "$DEVBOX_DIR"/install/dotfiles.sh
 
 bootstrap_echo "Done!"
 
@@ -282,7 +269,7 @@ if [ "$OS_TYPE" == "macos" ]; then
   
   bootstrap_echo "Done!"
 else
-  bootstrap_echo "Step 5: Skipping font installation on Linux (fonts are primarily for GUI terminals)"
+  bootstrap_echo "Step 6: Skipping font installation on Linux (fonts are primarily for GUI terminals)"
 fi
 
 
