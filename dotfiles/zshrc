@@ -64,6 +64,7 @@ bindkey '^[[1;3D' backward-word    # Alt+Left
 bindkey '^[[1;3C' forward-word     # Alt+Right
 bindkey '^[b' backward-word        # Option+b / ESC+b
 bindkey '^[f' forward-word         # Option+f / ESC+f
+bindkey '^[^?' backward-kill-word  # Option+Delete
 
 # fzf key bindings and fuzzy completion
 command -v fzf &> /dev/null && source <(fzf --zsh)
