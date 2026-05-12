@@ -1,3 +1,6 @@
 init.author.email=sean.drumm@gmail.com
 init.author.name=Sean Drumm
 init.license=MIT
+
+min-release-age=7 # days
+ignore-scripts=true
