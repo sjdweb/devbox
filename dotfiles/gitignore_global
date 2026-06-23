@@ -15,3 +15,5 @@ Session.vim
 .powenv
 node_modules/
 *.local
+
+**/.claude/settings.local.json
